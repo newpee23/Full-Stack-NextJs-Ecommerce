@@ -15,7 +15,7 @@ const Footer = () => {
                 <div className="flex">
                     <div className="w-full">
                         <div className="flex flex-col items-center justify-center">
-                            <Image src={logo} width={200} height={200} alt="moon lamp" className="mt-2" />
+                            <Image src={logo} width={200} height={undefined} alt="moon lamp" className="mt-2" />
 
                             <ul className="flex justify-center mt-8 gap-3">
                                 <li>

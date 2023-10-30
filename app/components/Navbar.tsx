@@ -1,97 +1,133 @@
-
 "use client";
-// REACT AND NEXT IMPORT
+
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import { useCartStore } from "@/store/useCartStore";
+
 import Link from "next/link";
 import Cart from "./Cart";
 
-// IMAGES
-import logo from "@/public/moonlamplogo.png";
 
-// ICONS
+//CLERK IMPORTS
+import { UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
+
+// Next.js Imports
+import Image from "next/image";
+
+// Images and Icons
+import logo from "@/public/moonlamplogo.png";
 import { FiMenu } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import { BsCart4, BsFillBagHeartFill } from "react-icons/bs";
-import { useCartStore } from "@/store/useCartStore";
+import { AiOutlineShoppingCart, AiOutlineHeart, AiOutlineUser } from "react-icons/ai";
 
 const Navbar = () => {
-
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const cartStore = useCartStore();
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+
+  const { isSignedIn, user } = useUser();
 
   useEffect(() => {
-    if (showMobileMenu) {
+    if (openMobileMenu) {
       document.body.style.overflowY = "hidden";
     } else {
       document.body.style.overflowY = "auto";
     }
-  }, [showMobileMenu]);
-
-
-
+  }, [openMobileMenu]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
+      if (window.scrollY > 0 && !isScrolling) {
         setIsScrolling(true);
-      } else {
+      } else if (window.scrollY === 0 && isScrolling) {
         setIsScrolling(false);
       }
     };
-
+  
     window.addEventListener("scroll", handleScroll);
-
+  
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isScrolling]);
+
+  const cartStore = useCartStore();
+
+  const handleMobileMenu = () => {
+    setOpenMobileMenu(!openMobileMenu);
+  };
 
   return (
-    <nav className={`py-4 w-full ${isScrolling ? "fixed top-0 bg-white shadow-lg z-10" : "relative"}`}>
-      <div className="w-[89%] m-auto flex justify-between items-center max-w-[1400px]">
-        <Image src={logo} width={200} height={undefined} alt="logo" priority placeholder='blur' />
-        <ul className={`md:flex items-center gap-8 md:static absolute text-gray-600 font-medium ${showMobileMenu ? "top-12 py-10 w-full bg-secondary left-0 text-center space-y-10 text-white drop-shadow-lg z-20" : "hidden"}`}>
+    <nav className={`py-4 w-full fixed top-0 bg-white shadow-lg z-60}`}>
+      <div className="w-[89%] m-auto flex justify-between items-center  max-w-[1400px]">
+        <a href="/">
+          <Image src={logo} width={150} height={150} alt="moon lamp" />
+        </a>
+
+        <ul
+          className={`md:flex items-center gap-8 md:static absolute text-gray-600  ${
+            openMobileMenu
+              ? "top-16 py-10 w-full bg-secondary left-0 text-center space-y-10 text-white drop-shadow-lg z-20"
+              : "hidden"
+          }`}
+        >
           <li>
-            <Link href={"#shop"} onClick={() => setShowMobileMenu(false)}>
+            <a href="/" onClick={() => setOpenMobileMenu(false)}>
               Shop
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href={"#features"} onClick={() => setShowMobileMenu(false)}>
+            <a href="#features" onClick={() => setOpenMobileMenu(false)}>
               Features
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href={"#faq"} onClick={() => setShowMobileMenu(false)}>
+            <a href="#faq" onClick={() => setOpenMobileMenu(false)}>
               FAQ
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href={"#contact"} onClick={() => setShowMobileMenu(false)}>
+            <a href="#contact" onClick={() => setOpenMobileMenu(false)}>
               Contact
-            </Link>
+            </a>
+          </li>
+          <li>
+            <a href="/orders" onClick={() => setOpenMobileMenu(false)}>
+              My Orders
+            </a>
           </li>
         </ul>
+
         <div className="flex gap-4 items-center text-dark ml-auto md:ml-0">
           <div onClick={() => cartStore.toggleCart()} className="cursor-pointer relative">
-            <BsCart4 size={20} />
+            <AiOutlineShoppingCart size={20} />
             {cartStore.cart.length > 0 && (
-              <span className="bg-red-800 flex text-white text-sm font-bold w-4 h-4 rounded-full absolute left-2 bottom-3 items-center justify-center">{cartStore.cart.length}</span>
+              <span className="bg-primary text-white text-sm font-bold w-4 h-4 rounded-full absolute left-2 bottom-3 flex items-center justify-center">
+                {cartStore.cart.length}
+              </span>
             )}
           </div>
-          <div>
-            <BsFillBagHeartFill size={20} />
-          </div>
-          <div className="md:hidden" onClick={() => setShowMobileMenu(!showMobileMenu)}>
-            {showMobileMenu ? <MdClose size={25} className="cursor-pointer" /> : <FiMenu size={25} className="cursor-pointer" />}
-          </div>
+     
+          {/* CLERK USER BUTTON */}
+          {!isSignedIn ? (
+            <Link href={"/sign-in"}>
+              <AiOutlineUser size={25} />
+            </Link>
+          ) : (
+            <div>
+              <UserButton signInUrl="/" />
+            </div>
+          )}
+        </div>
+
+        <div className="md:hidden ml-4" onClick={handleMobileMenu}>
+          {!openMobileMenu ? <FiMenu size={25} /> : <MdClose size={25} />}
         </div>
       </div>
       {!cartStore.isOpen && <Cart />}
+    
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

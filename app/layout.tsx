@@ -1,8 +1,9 @@
-import type { Metadata } from "next"
-import { Poppins } from "next/font/google"
-import Navbar from "./components/Navbar"
-import "./globals.css"
-import Hydration from "./components/Hydration"
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import Navbar from "./components/Navbar";
+import "./globals.css";
+import Hydration from "./components/Hydration";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"], style: ["normal", "italic"] })
 
@@ -17,13 +18,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={poppins.className}>
-        <Hydration>
-          <Navbar/>
-          {children}
-        </Hydration>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={poppins.className}>
+          <Hydration>
+            <Navbar />
+            {children}
+          </Hydration>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

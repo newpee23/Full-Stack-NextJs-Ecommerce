@@ -21,8 +21,8 @@ const Hero = () => {
                     <button className="bg-secondary py-2 px-5 rounded-xl text-white">Buy Now</button>
                 </div>
                 </div>
-                <div className="flex lg:justify-end justify-center items-center">
-                    <Image src={heroImage} width={600} height={600} alt="heroImage" loading="lazy"  placeholder='blur'/>
+                <div className="flex lg:justify-end justify-center items-center object-cover">
+                    <Image src={heroImage} width={undefined} hidden={undefined} alt="heroImage" loading="lazy"  placeholder='blur'/>
                 </div>
             </div>
         </div>

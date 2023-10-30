@@ -7,7 +7,7 @@ const Parallax = () => {
             <div className="bg-white py-2 px-4 flex items-center justify-between border border-gray-200 rounded-[10px] mb-[49px] mt-10">
                 <input type="email" className="outline-none ml-5 w-[200px] md:w-[400px]" placeholder="Enter you email..." />
                 <div >
-                    <button className="flex items-center py-[10px] px-[26px] rounded-[5px] font-semibold md:text-lg text-white bg-primary whitespace-nowrap flex-1 w-fit">Subscribe</button>
+                    <button className="flex items-center md:py-[10px] py-[5px] md:px-[26px] px-[21px] rounded-[5px] font-semibold md:text-lg text-white bg-primary whitespace-nowrap flex-1 w-fit">Subscribe</button>
                 </div>
             </div>
         </div>

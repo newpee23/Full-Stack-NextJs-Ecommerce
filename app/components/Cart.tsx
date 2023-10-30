@@ -14,6 +14,8 @@ const Cart = () => {
   const cartStore = useCartStore();
   const total = totalPrice(cartStore.cart);
 
+  console.log(cartStore.isOpen);
+
   return (
     <div onClick={() => cartStore.toggleCart()} className="fixed w-full h-screen top-0 left-0 bg-black/25 z-50">
       <div onClick={(e) => e.stopPropagation()} className="bg-white absolute right-0 top-0 md:w-2/5 w-3/4 h-screen p-12">

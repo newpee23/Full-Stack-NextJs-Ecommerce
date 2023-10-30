@@ -41,12 +41,12 @@ function Product({ name, image, unit_amount, id, description, quantity }: Produc
                 <div className="flex gap-4 items-center">
                     <div className="flex flex-col gap-4">
                         {productImages.map((img, index) => (
-                            <Image key={index} src={img} width={100} height={100} alt="moonlamp" onClick={() => setCurrentImage(index)} className="rounded-md cursor-pointer"  loading="lazy" placeholder='blur'/>
+                            <Image key={index} src={img} width={100} height={undefined} alt="moonlamp" onClick={() => setCurrentImage(index)} className="rounded-md cursor-pointer"  loading="lazy" placeholder='blur'/>
                         ))}
                     </div>
                     <div className="flex items-center">
                         <motion.div initial="exit" animate="enter" exit="exit" variants={imageVariants} key={currentImage}>
-                            <Image src={productImages[currentImage]} width={480} height={480} alt="main-image" className="rounded-md" loading="lazy" placeholder='blur'/>
+                            <Image src={productImages[currentImage]} width={480} height={undefined} alt="main-image" className="rounded-md" loading="lazy" placeholder='blur'/>
                         </motion.div>
                     </div>
                 </div>
