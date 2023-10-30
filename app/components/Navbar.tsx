@@ -61,7 +61,7 @@ const Navbar = () => {
     <nav className={`py-4 w-full fixed top-0 bg-white shadow-lg z-60}`}>
       <div className="w-[89%] m-auto flex justify-between items-center  max-w-[1400px]">
         <a href="/">
-          <Image src={logo} width={150} height={150} alt="moon lamp" />
+          <Image src={logo} width={150} height={undefined} alt="moon lamp" />
         </a>
 
         <ul
@@ -92,7 +92,7 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="/orders" onClick={() => setOpenMobileMenu(false)}>
+            <a href="/" onClick={() => setOpenMobileMenu(false)}>
               My Orders
             </a>
           </li>
