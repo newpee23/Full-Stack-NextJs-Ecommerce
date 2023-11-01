@@ -1,7 +1,14 @@
 // REACT AND NEXT IMPORT
-import React from "react";
+import { useState, useEffect } from "react";
+import { useCartStore } from "@/store/useCartStore";
+import { useRouter } from "next/router";
+import { useClerk } from "@clerk/nextjs";
 
-function CheckoutForm() {
+// stripe-js
+import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+const CheckoutForm = () => {
   return (
     <div>CheckoutForm</div>
   )
