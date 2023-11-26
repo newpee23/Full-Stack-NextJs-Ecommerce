@@ -5,10 +5,11 @@ import Features from './components/Features';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Parallax from './components/Parallax';
-import Product from './components/Product';
+import Products from './components/Products';
 
 // UTILS IMPORT
 import { getProduct } from '@/utils/fetchStripeProducts';
+
 const Home = async () => {
 
   const product = await getProduct();
@@ -20,7 +21,7 @@ const Home = async () => {
       <Parallax />
       <>
         {product.map((product) => (
-          <Product {...product} key={product.id} />
+          <Products {...product} key={product.id} />
         ))}
       </>
       <FAQ />

@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/useCartStore";
-
+import { useWishlistStore } from "@/store/useWishlistStore";
 import Link from "next/link";
 import Cart from "./Cart";
-
+import WishList from "./Wishlist";
 
 //CLERK IMPORTS
 import { UserButton } from "@clerk/nextjs";
@@ -37,31 +37,32 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0 && !isScrolling) {
+      if (window.scrollY > 0) {
         setIsScrolling(true);
-      } else if (window.scrollY === 0 && isScrolling) {
+      } else {
         setIsScrolling(false);
       }
     };
-  
+
     window.addEventListener("scroll", handleScroll);
-  
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isScrolling]);
+  }, []);
 
   const cartStore = useCartStore();
+  const wishlistStore = useWishlistStore();
 
   const handleMobileMenu = () => {
     setOpenMobileMenu(!openMobileMenu);
   };
 
   return (
-    <nav className={`py-4 w-full fixed top-0 bg-white shadow-lg z-60}`}>
+    <nav className={`py-4 w-full ${isScrolling ? "fixed top-0 bg-white shadow-lg z-10" : "relative"}`}>
       <div className="w-[89%] m-auto flex justify-between items-center  max-w-[1400px]">
         <a href="/">
-          <Image src={logo} width={150} height={undefined} alt="moon lamp" />
+          <Image src={logo} width={150} height={150} alt="moon lamp" />
         </a>
 
         <ul
@@ -92,7 +93,7 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="/" onClick={() => setOpenMobileMenu(false)}>
+            <a href="/orders" onClick={() => setOpenMobileMenu(false)}>
               My Orders
             </a>
           </li>
@@ -107,7 +108,9 @@ const Navbar = () => {
               </span>
             )}
           </div>
-     
+          <div onClick={() => wishlistStore.toggleWishList()} className="cursor-pointer">
+            <AiOutlineHeart size={20} />
+          </div>
           {/* CLERK USER BUTTON */}
           {!isSignedIn ? (
             <Link href={"/sign-in"}>
@@ -125,7 +128,7 @@ const Navbar = () => {
         </div>
       </div>
       {!cartStore.isOpen && <Cart />}
-    
+      {!wishlistStore.openWishlist && <WishList />}
     </nav>
   );
 };
